@@ -2759,35 +2759,7 @@ function AnalyticsPanel({applications,inquiries,genReport,dlExcel}){
             <button key={i} onClick={b.click} style={{padding:'10px 8px',borderRadius:9,border:`1px solid ${b.border}`,background:b.bg,color:b.col,fontFamily:'inherit',fontWeight:800,fontSize:12,cursor:'pointer',textAlign:'center'}}>{b.label}</button>
           ))}
         </div>
-        {/* Month-wise picker */}
-        {(()=>{
-          const allM=(()=>{const set=new Set();[...applications,...inquiries].forEach(a=>{const d=(s=>{if(!s)return null;const iso=new Date(s);if(!isNaN(iso))return iso;const m=s.match(/(\d+)\/(\d+)\/(\d+)/);return m?new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1])):null;})(a.submittedAt);if(d)set.add(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`);});return[...set].sort().reverse();})();
-          if(allM.length===0)return null;
-          return(
-          <div style={{borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:10,marginTop:2,marginBottom:10}}>
-            <div style={{fontWeight:700,fontSize:10,color:'rgba(255,255,255,.35)',marginBottom:7,letterSpacing:.5}}>📅 MONTH-WISE REPORT — select month then print</div>
-            <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
-              {allM.map(ym=>{
-                const[y,m]=ym.split('-');
-                const lbl=new Date(parseInt(y),parseInt(m)-1,1).toLocaleString('en-IN',{month:'short',year:'numeric'});
-                const mIdx=parseInt(m)-1,yr=parseInt(y);
-                const aCount=applications.filter(a=>{const d=(s=>{if(!s)return null;const iso=new Date(s);if(!isNaN(iso))return iso;const mx=s.match(/(\d+)\/(\d+)\/(\d+)/);return mx?new Date(parseInt(mx[3]),parseInt(mx[2])-1,parseInt(mx[1])):null;})(a.submittedAt);return d&&d.getMonth()===mIdx&&d.getFullYear()===yr;}).length;
-                const iCount=inquiries.filter(a=>{const d=(s=>{if(!s)return null;const iso=new Date(s);if(!isNaN(iso))return iso;const mx=s.match(/(\d+)\/(\d+)\/(\d+)/);return mx?new Date(parseInt(mx[3]),parseInt(mx[2])-1,parseInt(mx[1])):null;})(a.submittedAt);return d&&d.getMonth()===mIdx&&d.getFullYear()===yr;}).length;
-                return(
-                  <div key={ym} style={{background:'rgba(255,255,255,.05)',border:'1px solid rgba(255,255,255,.1)',borderRadius:10,padding:'8px 10px',minWidth:100}}>
-                    <div style={{fontSize:11,fontWeight:800,color:'#e2e8f0',marginBottom:5}}>{lbl}</div>
-                    <div style={{display:'flex',gap:4,flexWrap:'wrap'}}>
-                      <button onClick={()=>genReport('monthly','both',mIdx,yr)} style={{background:'rgba(37,99,235,.2)',border:'1px solid rgba(96,165,250,.3)',color:'#93c5fd',borderRadius:6,padding:'3px 7px',fontSize:9,fontWeight:800,cursor:'pointer',fontFamily:'inherit'}}>📋 All ({aCount+iCount})</button>
-                      <button onClick={()=>genReport('monthly','apps',mIdx,yr)} style={{background:'rgba(16,185,129,.15)',border:'1px solid rgba(52,211,153,.25)',color:'#6ee7b7',borderRadius:6,padding:'3px 7px',fontSize:9,fontWeight:800,cursor:'pointer',fontFamily:'inherit'}}>🎓 Apps ({aCount})</button>
-                      <button onClick={()=>genReport('monthly','inqs',mIdx,yr)} style={{background:'rgba(245,158,11,.15)',border:'1px solid rgba(245,158,11,.25)',color:'#fcd34d',borderRadius:6,padding:'3px 7px',fontSize:9,fontWeight:800,cursor:'pointer',fontFamily:'inherit'}}>💬 Inq ({iCount})</button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          );
-        })()}
+
         {/* Previous Month Reports */}
         {(()=>{const pm=new Date();pm.setMonth(pm.getMonth()-1);const pMonth=pm.getMonth();const pYear=pm.getFullYear();const pLabel=pm.toLocaleString('en-IN',{month:'long',year:'numeric'});return(
         <div style={{borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:10,marginTop:2}}>
@@ -4635,3 +4607,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
+s
